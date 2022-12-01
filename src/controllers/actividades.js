@@ -41,7 +41,8 @@ ActividadesCtr.saveActivity = async (req, res) => {
     ]);
     res.json({
         id: results.insertId,
-        ...req.body
+        ...req.body,
+        ok: true,
     });
 }
 
