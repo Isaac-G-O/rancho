@@ -73,6 +73,9 @@ class MainServer {
         this.app.use(this.EndPointTipoAnimales, TipoAnimales);
         this.app.use(this.EndPointAnimales, Animales);
         this.app.use(this.EndPointScripts, Scripts);
+        this.app.get('/', (req, res) => {
+            res.send('El Fraco me la pela')
+        });
     }
 }
 
