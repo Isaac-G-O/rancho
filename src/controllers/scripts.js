@@ -12,7 +12,7 @@ ScriptsCtr.validarUsuario = async (req, res) => {
     const connection = await connect();
 
     // validar si existe
-    const user = await connection.query('SELECT * FROM Personal WHERE Cuenta = ?',[Cuenta]);
+    const user = await connection.query('SELECT * FROM personal WHERE Cuenta = ?',[Cuenta]);
     if(user[0].length === 0){
         res.json({
             msg: 'Usuario no identificado',

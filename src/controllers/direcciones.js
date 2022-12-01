@@ -3,7 +3,7 @@ const connect = require('../../DBConexion');
 
 DireccionesCtr.getDataDirecciones = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Direcciones');
+    const [rows] = await connection.query('SELECT * FROM direcciones');
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false
@@ -13,7 +13,7 @@ DireccionesCtr.getDataDirecciones = async (req, res) => {
 DireccionesCtr.getDataDireccion = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Direcciones WHERE id = ?', [
+    const [rows] = await connection.query('SELECT * FROM direcciones WHERE id = ?', [
         id
     ]);
     rows.length === 0 ? res.json({
@@ -25,7 +25,7 @@ DireccionesCtr.getDataDireccion = async (req, res) => {
 
 DireccionesCtr.getDireccionesCount = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT COUNT(*) FROM Direcciones');
+    const [rows] = await connection.query('SELECT COUNT(*) FROM direcciones');
     res.json({
         TotalDirecciones: rows[0]['COUNT(*)'],
         ok: true
@@ -41,7 +41,7 @@ DireccionesCtr.createDireccion = async (req, res) => {
     const Estado = req.body.Estado;
     const Pais = req.body.Pais;
     const connection = await connect();
-    const [results] = await connection.query('INSERT INTO Direcciones (Calle, Numero, Colonia, CP, Municipio, Estado, Pais) VALUES (?,?,?,?,?,?,?)', [
+    const [results] = await connection.query('INSERT INTO direcciones (Calle, Numero, Colonia, CP, Municipio, Estado, Pais) VALUES (?,?,?,?,?,?,?)', [
         Calle,
         Numero,
         Colonia,
@@ -60,7 +60,7 @@ DireccionesCtr.createDireccion = async (req, res) => {
 DireccionesCtr.deleteDireccion = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('DELETE FROM Direcciones WHERE id = ?', [id]);
+    const result = await connection.query('DELETE FROM direcciones WHERE id = ?', [id]);
     result[0].affectedRows !== 0 ?
         res.json({
             msg: 'Direccion eliminada con exito',
@@ -75,7 +75,7 @@ DireccionesCtr.deleteDireccion = async (req, res) => {
 DireccionesCtr.updateDireccion = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('UPDATE Direcciones SET ? WHERE id = ?', [
+    const result = await connection.query('UPDATE direcciones SET ? WHERE id = ?', [
         req.body,
         id
     ]);

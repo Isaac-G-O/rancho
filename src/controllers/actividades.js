@@ -4,14 +4,14 @@ const connect = require('../../DBConexion');
 
 ActividadesCtr.getActividades = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Actividades;');
+    const [rows] = await connection.query('SELECT * FROM actividades;');
     res.json(rows);
 };
 
 ActividadesCtr.getActividad = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Actividades WHERE id = ?', [id]);
+    const [rows] = await connection.query('SELECT * FROM actividades WHERE id = ?', [id]);
     rows.length != 0 ?
         res.json({
             obj: rows[0], ok: true
@@ -24,7 +24,7 @@ ActividadesCtr.getActividad = async (req, res) => {
 
 ActividadesCtr.getActivitiesCount = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT COUNT(*) FROM Actividades');
+    const [rows] = await connection.query('SELECT COUNT(*) FROM actividades');
     res.json({
         TotalActividades: rows[0]['COUNT(*)'],
         ok: true
@@ -35,7 +35,7 @@ ActividadesCtr.saveActivity = async (req, res) => {
     const Activity = req.body.Nombre;
     const Description = req.body.Descripcion;
     const connection = await connect();
-    const [results] = await connection.query('INSERT INTO Actividades(Nombre, Descripcion) VALUES (?,?)', [
+    const [results] = await connection.query('INSERT INTO actividades(nombre, descripcion) VALUES (?,?)', [
         Activity,
         Description
     ]);
@@ -49,7 +49,7 @@ ActividadesCtr.saveActivity = async (req, res) => {
 ActividadesCtr.deleteActividad = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('DELETE FROM Actividades WHERE id = ?', [id]);
+    const result = await connection.query('DELETE FROM actividades WHERE id = ?', [id]);
     result[0].affectedRows !== 0 ?
         res.json({
             msg: 'Actividad eliminada con exito',
@@ -64,7 +64,7 @@ ActividadesCtr.deleteActividad = async (req, res) => {
 ActividadesCtr.updateActividad = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('UPDATE Actividades SET ? WHERE id = ?', [
+    const result = await connection.query('UPDATE actividades SET ? WHERE id = ?', [
         req.body,
         id
     ]);

@@ -3,7 +3,7 @@ const connect = require('../../DBConexion');
 
 ComprasCtr.getDataCompras = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Compras');
+    const [rows] = await connection.query('SELECT * FROM compras');
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false
@@ -14,7 +14,7 @@ ComprasCtr.getDataCompras = async (req, res) => {
 ComprasCtr.getDataCompra = async (req, res) => {
     const id_Compra = req.params.id_Compra;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Compras WHERE id_Compra = ?', [
+    const [rows] = await connection.query('SELECT * FROM compras WHERE id_Compra = ?', [
         id_Compra
     ]);
     rows.length === 0 ? res.json({
@@ -26,14 +26,14 @@ ComprasCtr.getDataCompra = async (req, res) => {
 
 ComprasCtr.getComprasCount = async (req, res) => {
     const connection = await connect();
-    const result = await connection.query('SELECT * FROM Compras');
+    const result = await connection.query('SELECT * FROM compras');
     if (result[0].length === 0) {
         res.json({
             msg: 'Sin registros de compras...',
             ok: false
         });
     } else {
-        const [rows] = await connection.query('SELECT COUNT(*) FROM Compras');
+        const [rows] = await connection.query('SELECT COUNT(*) FROM compras');
         res.json({
             TotalCompras: rows[0]['COUNT(*)'],
             ok: true
@@ -51,7 +51,7 @@ ComprasCtr.createCompra = async (req, res) => {
 
     // validacion
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Proveedores WHERE id_Proveedor = ?', [
+    const [rows] = await connection.query('SELECT * FROM proveedores WHERE id_Proveedor = ?', [
         id_Proveedor
     ]);
     if (rows.length === 0) {
@@ -60,14 +60,14 @@ ComprasCtr.createCompra = async (req, res) => {
             ok: false
         });
     } else {
-        const personal = await connection.query('SELECT * FROM Personal WHERE id = ?', [id_Personal]);
+        const personal = await connection.query('SELECT * FROM personal WHERE id = ?', [id_Personal]);
         if (personal[0].length === 0) {
             res.json({
                 msg: 'Personal no identificado',
                 ok: false
             });
         } else {
-            const [results] = await connection.query('INSERT INTO Compras (id_Proveedor,id_Producto, id_Personal, Cantidad, Precio_Unitario, Fecha) VALUES (?,?,?,?,?,?)', [
+            const [results] = await connection.query('INSERT INTO compras (id_Proveedor,id_Producto, id_Personal, Cantidad, Precio_Unitario, Fecha) VALUES (?,?,?,?,?,?)', [
                 id_Proveedor,
                 id_Producto,
                 id_Personal,
@@ -87,7 +87,7 @@ ComprasCtr.createCompra = async (req, res) => {
 ComprasCtr.deleteCompra = async (req, res) => {
     const id_Compra = req.params.id_Compra;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Compras WHERE id_Compra = ?', [
+    const [rows] = await connection.query('SELECT * FROM compras WHERE id_Compra = ?', [
         id_Compra
     ]);
 
@@ -97,7 +97,7 @@ ComprasCtr.deleteCompra = async (req, res) => {
             ok: false
         });
     } else {
-        const result = await connection.query('DELETE FROM Compras WHERE id_Compra = ?', [id_Compra]);
+        const result = await connection.query('DELETE FROM compras WHERE id_Compra = ?', [id_Compra]);
         result[0].affectedRows !== 0 ?
             res.json({
                 msg: 'Compra eliminada con exito',

@@ -3,7 +3,7 @@ const connect = require('../../DBConexion');
 
 ProveedoresCtr.getDataProveedores = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Proveedores');
+    const [rows] = await connection.query('SELECT * FROM proveedores');
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false
@@ -14,7 +14,7 @@ ProveedoresCtr.getDataProveedores = async (req, res) => {
 ProveedoresCtr.getDataProveedor = async (req, res) => {
     const id_Proveedor = req.params.id_Proveedor;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Proveedores WHERE id_Proveedor = ?', [
+    const [rows] = await connection.query('SELECT * FROM proveedores WHERE id_Proveedor = ?', [
         id_Proveedor
     ]);
     rows.length === 0 ? res.json({
@@ -26,7 +26,7 @@ ProveedoresCtr.getDataProveedor = async (req, res) => {
 
 ProveedoresCtr.getProveedoresCount = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT COUNT(*) FROM Proveedores');
+    const [rows] = await connection.query('SELECT COUNT(*) FROM proveedores');
     res.json({
         TotalClientes: rows[0]['COUNT(*)'],
         ok: true
@@ -42,7 +42,7 @@ ProveedoresCtr.createProveedor = async (req, res) => {
     const connection = await connect();
     
     if(await validar(id_Direccion) === 1){
-        const [results] = await connection.query('INSERT INTO Proveedores (id_Direccion, RazonSocial, Telefono, Correo, Estatus) VALUES (?,?,?,?,?)', [
+        const [results] = await connection.query('INSERT INTO proveedores (id_Direccion, RazonSocial, Telefono, Correo, Estatus) VALUES (?,?,?,?,?)', [
             id_Direccion,
             RazonSocial,
             Telefono,
@@ -64,7 +64,7 @@ ProveedoresCtr.createProveedor = async (req, res) => {
 ProveedoresCtr.deleteProveedor = async (req, res) => {
     const id_Proveedor = req.params.id_Proveedor;
     const connection = await connect();
-    const result =  await connection.query('DELETE FROM Proveedores WHERE id_Proveedor = ?', [id_Proveedor]);
+    const result =  await connection.query('DELETE FROM proveedores WHERE id_Proveedor = ?', [id_Proveedor]);
     result[0].affectedRows !== 0 ?
         res.json({
             msg: 'Direccion eliminada con exito',
@@ -81,7 +81,7 @@ ProveedoresCtr.updateProveedor = async (req, res) => {
     const connection = await connect();
 
     if(await validar(req.body.id_Direccion) === 1){
-        const [result] = await connection.query('UPDATE Proveedores SET ? WHERE id_Proveedor = ?', [
+        const [result] = await connection.query('UPDATE proveedores SET ? WHERE id_Proveedor = ?', [
             req.body,
             id_Proveedor
         ]);
@@ -104,7 +104,7 @@ ProveedoresCtr.updateProveedor = async (req, res) => {
 
 const validar = async(id_Direccion) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Direcciones WHERE id = ?', [
+    const [rows] = await connection.query('SELECT * FROM direcciones WHERE id = ?', [
         id_Direccion
     ]);
     console.log("kajsndkfjnasd " + rows.length)

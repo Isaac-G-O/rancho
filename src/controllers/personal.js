@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 PersonalCtr.getDataPersonal = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Personal');
+    const [rows] = await connection.query('SELECT * FROM personal');
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false
@@ -15,7 +15,7 @@ PersonalCtr.getDataPersonal = async (req, res) => {
 PersonalCtr.getDataPersona = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Personal WHERE id = ?', [
+    const [rows] = await connection.query('SELECT * FROM personal WHERE id = ?', [
         id
     ]);
     rows.length === 0 ? res.json({
@@ -27,7 +27,7 @@ PersonalCtr.getDataPersona = async (req, res) => {
 
 PersonalCtr.getPersonalCount = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT COUNT(*) FROM Personal');
+    const [rows] = await connection.query('SELECT COUNT(*) FROM personal');
     res.json({
         TotalPersonal: rows[0]['COUNT(*)'],
         ok: true
@@ -47,21 +47,21 @@ PersonalCtr.createPersona = async (req, res) => {
     const connection = await connect();
 
     // validacion 
-    const act = await connection.query('SELECT * FROM Actividades WHERE id = ?', [id_Actividad]);
+    const act = await connection.query('SELECT * FROM actividades WHERE id = ?', [id_Actividad]);
     if (act[0].length === 0) {
         res.json({
             msg: 'Actividad no identificada',
             ok: false
         });
     } else {
-        const matPrima = await connection.query('SELECT * FROM MateriaPrima WHERE id = ?', [id_Material]);
+        const matPrima = await connection.query('SELECT * FROM materiaprima WHERE id = ?', [id_Material]);
         if (matPrima[0].length === 0) {
             res.json({
                 msg: 'Materia prima no identificada',
                 ok: false
             });
         } else {
-            const [results] = await connection.query('INSERT INTO Personal (id_Actividad, id_Material, Nombre, Puesto, Salario, Turno, Estatus, Cuenta, Contra) VALUES (?,?,?,?,?,?,?,?,?)', [
+            const [results] = await connection.query('INSERT INTO personal (id_Actividad, id_Material, Nombre, Puesto, Salario, Turno, Estatus, Cuenta, Contra) VALUES (?,?,?,?,?,?,?,?,?)', [
                 id_Actividad,
                 id_Material,
                 Nombre,
@@ -83,7 +83,7 @@ PersonalCtr.createPersona = async (req, res) => {
 PersonalCtr.deletePersona = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('DELETE FROM Personal WHERE id = ?', [id]);
+    const result = await connection.query('DELETE FROM personal WHERE id = ?', [id]);
     result[0].affectedRows !== 0 ?
         res.json({
             msg: 'Registro eliminado con exito',
@@ -98,7 +98,7 @@ PersonalCtr.deletePersona = async (req, res) => {
 PersonalCtr.updatePersona = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('UPDATE Personal SET ? WHERE id = ?', [
+    const result = await connection.query('UPDATE personal SET ? WHERE id = ?', [
         req.body,
         id
     ]);

@@ -3,7 +3,7 @@ const connect = require('../../DBConexion');
 
 AlimentoVentaCtr.getDataAlimentoVenta = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Alimento_Venta');
+    const [rows] = await connection.query('SELECT * FROM alimento_venta');
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false
@@ -14,7 +14,7 @@ AlimentoVentaCtr.getDataAlimentoVenta = async (req, res) => {
 AlimentoVentaCtr.getDataAlimento = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Alimento_Venta WHERE id = ?', [
+    const [rows] = await connection.query('SELECT * FROM alimento_venta WHERE id = ?', [
         id
     ]);
     rows.length === 0 ? res.json({
@@ -26,7 +26,7 @@ AlimentoVentaCtr.getDataAlimento = async (req, res) => {
 
 AlimentoVentaCtr.getAlimentoVentaCount = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT COUNT(*) FROM Alimento_Venta');
+    const [rows] = await connection.query('SELECT COUNT(*) FROM alimento_venta');
     res.json({
         TotalAlimentoVenta: rows[0]['COUNT(*)'],
         ok: true
@@ -39,7 +39,7 @@ AlimentoVentaCtr.createAlimento = async (req, res) => {
     const Cantidad = req.body.Cantidad;
     const TipoUnidad = req.body.TipoUnidad;
     const connection = await connect();
-    const [results] = await connection.query('INSERT INTO Alimento_Venta (Nombre, PrecioUnitario, Cantidad, TipoUnidad) VALUES (?,?,?,?)', [
+    const [results] = await connection.query('INSERT INTO alimento_venta (Nombre, PrecioUnitario, Cantidad, TipoUnidad) VALUES (?,?,?,?)', [
         Nombre,
         PrecioUnitario,
         Cantidad,
@@ -55,7 +55,7 @@ AlimentoVentaCtr.createAlimento = async (req, res) => {
 AlimentoVentaCtr.deleteAlimento = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('DELETE FROM Alimento_Venta WHERE id = ?', [
+    const result = await connection.query('DELETE FROM alimento_venta WHERE id = ?', [
         id
     ]);
     result[0].affectedRows !== 0 ?
@@ -72,7 +72,7 @@ AlimentoVentaCtr.deleteAlimento = async (req, res) => {
 AlimentoVentaCtr.updateAlimento = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('UPDATE Alimento_Venta SET ? WHERE id = ?', [
+    const result = await connection.query('UPDATE alimento_venta SET ? WHERE id = ?', [
         req.body,
         id
     ]);

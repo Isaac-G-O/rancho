@@ -3,7 +3,7 @@ const connect = require('../../DBConexion');
 
 ClientesCtr.getDataClientes = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Clientes');
+    const [rows] = await connection.query('SELECT * FROM clientes');
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false
@@ -14,7 +14,7 @@ ClientesCtr.getDataClientes = async (req, res) => {
 ClientesCtr.getDataCliente = async (req, res) => {
     const id_Cliente = req.params.id_Cliente;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Clientes WHERE id_Cliente = ?', [
+    const [rows] = await connection.query('SELECT * FROM clientes WHERE id_Cliente = ?', [
         id_Cliente
     ]);
     rows.length === 0 ? res.json({
@@ -26,7 +26,7 @@ ClientesCtr.getDataCliente = async (req, res) => {
 
 ClientesCtr.getClientesCount = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT COUNT(*) FROM Clientes');
+    const [rows] = await connection.query('SELECT COUNT(*) FROM clientes');
     res.json({
         TotalClientes: rows[0]['COUNT(*)'],
         ok: true
@@ -45,7 +45,7 @@ ClientesCtr.createCliente = async (req, res) => {
 
     // validacion
     const idDireccion = id_Direccion
-    const [rows] = await connection.query('SELECT * FROM Direcciones WHERE id = ?', [
+    const [rows] = await connection.query('SELECT * FROM direcciones WHERE id = ?', [
         idDireccion
     ]);
 
@@ -55,7 +55,7 @@ ClientesCtr.createCliente = async (req, res) => {
             ok: false
         });
     } else {
-        const [results] = await connection.query('INSERT INTO Clientes (id_Direccion, Nombre, Correo, Estatus, Cuenta, Pass) VALUES (?,?,?,?,?,sha(?))', [
+        const [results] = await connection.query('INSERT INTO clientes (id_Direccion, Nombre, Correo, Estatus, Cuenta, Pass) VALUES (?,?,?,?,?,sha(?))', [
             id_Direccion,
             Nombre,
             Correo,
@@ -75,7 +75,7 @@ ClientesCtr.createCliente = async (req, res) => {
 ClientesCtr.deleteCliente = async (req, res) => {
     const id_Cliente = req.params.id_Cliente;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Clientes WHERE id_Cliente = ?',[id_Cliente]);
+    const [rows] = await connection.query('SELECT * FROM clientes WHERE id_Cliente = ?',[id_Cliente]);
     if(rows.length === 0){
         res.json({
             msj: 'Cliente no registrado',
@@ -83,9 +83,9 @@ ClientesCtr.deleteCliente = async (req, res) => {
         });
     } else {
         const id_Direccion = rows[0].id_Direccion;
-        const direccion = await connection.query('SELECT * FROM Direcciones WHERE id = ?',id_Direccion);
-        const eliminarDireccion = await connection.query('DELETE FROM Direcciones WHERE id = ?', [direccion[0][0].id]);
-        const result = await connection.query('DELETE FROM Clientes WHERE id_Cliente = ?', [id_Cliente]);
+        const direccion = await connection.query('SELECT * FROM direcciones WHERE id = ?',id_Direccion);
+        const eliminarDireccion = await connection.query('DELETE FROM direcciones WHERE id = ?', [direccion[0][0].id]);
+        const result = await connection.query('DELETE FROM clientes WHERE id_Cliente = ?', [id_Cliente]);
         if(result[0].affectedRows !== 0 && eliminarDireccion[0].affectedRows !== 0){
             res.json({
                 msg: 'Cliente y direccion eliminada con exito',
@@ -110,7 +110,7 @@ ClientesCtr.updateCliente = async (req, res) => {
     const connection = await connect();
     // valida
     const idDireccion = req.body.id_Direccion;
-    const [rows] = await connection.query('SELECT * FROM Direcciones WHERE id = ?', [
+    const [rows] = await connection.query('SELECT * FROM direcciones WHERE id = ?', [
         idDireccion
     ]);
 
@@ -120,7 +120,7 @@ ClientesCtr.updateCliente = async (req, res) => {
             ok: false
         });
     } else {
-        const [rows] = await connection.query('SELECT * FROM Clientes WHERE id_Cliente = ?', [
+        const [rows] = await connection.query('SELECT * FROM clientes WHERE id_Cliente = ?', [
             id_Cliente
         ]);
         if (rows.length === 0) {
@@ -129,14 +129,14 @@ ClientesCtr.updateCliente = async (req, res) => {
                 ok: false
             });
         } else {
-            const result = await connection.query('UPDATE Clientes SET ? WHERE id_Cliente = ?', [
+            const result = await connection.query('UPDATE clientes SET ? WHERE id_Cliente = ?', [
                 req.body,
                 id_Cliente
             ]);
 
             if (result[0].affectedRows === 0) {
                 res.json({
-                    msg: 'No se pudo modificar Cliente con id: ' + id_Cliente,
+                    msg: 'No se pudo modificar cliente con id: ' + id_Cliente,
                     ok: false
                 });
             } else

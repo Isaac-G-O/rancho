@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
     "Nombre": "Alimentar ganado",
-    "Descripcion":"Alimentar al ganado correspondiente"
+    "Descripcion":"test"
 }
 
 ###

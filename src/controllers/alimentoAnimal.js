@@ -3,7 +3,7 @@ const connect = require('../../DBConexion');
 
 AlimentoAnimalCtr.getDataAlimentos = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Alimento_Animal');
+    const [rows] = await connection.query('SELECT * FROM alimento_animal');
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false
@@ -14,7 +14,7 @@ AlimentoAnimalCtr.getDataAlimentos = async (req, res) => {
 AlimentoAnimalCtr.getDataAlimento = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Alimento_Animal WHERE id = ?', [
+    const [rows] = await connection.query('SELECT * FROM alimento_animal WHERE id = ?', [
         id
     ]);
     rows.length === 0 ? res.json({
@@ -26,7 +26,7 @@ AlimentoAnimalCtr.getDataAlimento = async (req, res) => {
 
 AlimentoAnimalCtr.getAlimentoCount = async (req, res) => {
     const connection = await connect();
-    const [rows] =  await connection.query('SLECT COUNT(*) FROM Alimento_Animal');
+    const [rows] =  await connection.query('SLECT COUNT(*) FROM alimento_animal');
     res.json({
         TotalActividades: rows[0]['COUNT(*)'],
         ok: true
@@ -39,7 +39,7 @@ AlimentoAnimalCtr.createAlimentoAnimal = async (req, res) => {
     const Cantidad = req.body.Cantidad;
     const TipoUnidad = req.body.TipoUnidad;
     const connection = await connect();
-    const [results] = await connection.query('INSERT INTO Alimento_Animal(Nombre, Descripcion, Cantidad, TipoUnidad) VALUES (?,?,?,?)', [
+    const [results] = await connection.query('INSERT INTO alimento_animal(Nombre, Descripcion, Cantidad, TipoUnidad) VALUES (?,?,?,?)', [
         Nombre,
         Descripcion,
         Cantidad,
@@ -55,7 +55,7 @@ AlimentoAnimalCtr.createAlimentoAnimal = async (req, res) => {
 AlimentoAnimalCtr.deleteAlimentoAnimal = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('DELETE FROM Alimento_Animal WHERE id = ?', [id]);
+    const result = await connection.query('DELETE FROM alimento_animal WHERE id = ?', [id]);
     result[0].affectedRows !== 0 ?
         res.json({
             msg: 'Alimento de animal eliminada con exito',
@@ -70,7 +70,7 @@ AlimentoAnimalCtr.deleteAlimentoAnimal = async (req, res) => {
 AlimentoAnimalCtr.updateAlimentoAnimal = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('UPDATE Alimento_Animal SET ? WHERE id = ?', [
+    const result = await connection.query('UPDATE alimento_animal SET ? WHERE id = ?', [
         req.body,
         id
     ]);

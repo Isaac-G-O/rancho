@@ -3,7 +3,7 @@ const connect = require('../../DBConexion');
 
 MateriaCtr.getMateriaPrima = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM MateriaPrima;');
+    const [rows] = await connection.query('SELECT * FROM materiaprima;');
     res.json(rows);
 }
 
@@ -12,7 +12,7 @@ MateriaCtr.saveMateriaPrima = async (req, res) => {
     const Descripcion = req.body.Descripcion;
     const Cantidad = req.body.Cantidad;
     const connection = await connect();
-    const [results] = await connection.query('INSERT INTO MateriaPrima(Nombre, Descripcion, Cantidad) VALUES (?,?,?)', [
+    const [results] = await connection.query('INSERT INTO materiaprima(Nombre, Descripcion, Cantidad) VALUES (?,?,?)', [
         Nombre,
         Descripcion,
         Cantidad

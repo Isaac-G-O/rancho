@@ -3,7 +3,7 @@ const connect = require('../../DBConexion');
 
 TipoAnimales.getDataTipoAnimales = async (req, res) => {
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Tipo_Animales');
+    const [rows] = await connection.query('SELECT * FROM tipo_animales');
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false
@@ -14,7 +14,7 @@ TipoAnimales.getDataTipoAnimales = async (req, res) => {
 TipoAnimales.getDataTipoAnimal = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const [rows] = await connection.query('SELECT * FROM Tipo_Animales WHERE id = ?', [
+    const [rows] = await connection.query('SELECT * FROM tipo_animales WHERE id = ?', [
         id
     ]);
     rows.length === 0 ? res.json({
@@ -26,14 +26,14 @@ TipoAnimales.getDataTipoAnimal = async (req, res) => {
 
 TipoAnimales.getTipoAnimalesCount = async (req, res) => {
     const connection = await connect();
-    const result = await connection.query('SELECT * FROM Tipo_Animales');
+    const result = await connection.query('SELECT * FROM tipo_animales');
     if (result[0].length === 0) {
         res.json({
             msg: 'Sin registros de Tipo Animales...',
             ok: false
         });
     } else {
-        const [rows] = await connection.query('SELECT COUNT(*) FROM Tipo_Animales');
+        const [rows] = await connection.query('SELECT COUNT(*) FROM tipo_animales');
         res.json({
             TotalTipoAnimales: rows[0]['COUNT(*)'],
             ok: true
@@ -52,7 +52,7 @@ TipoAnimales.createTipoAnimal = async (req, res) => {
 
     // validacion
     const connection = await connect();
-    const alimento = await connection.query('SELECT * FROM Alimento_Animal WHERE id = ?', [id_Alimento]);
+    const alimento = await connection.query('SELECT * FROM tipo_animales WHERE id = ?', [id_Alimento]);
 
     if (alimento[0].length === 0) {
         res.json({
@@ -60,21 +60,21 @@ TipoAnimales.createTipoAnimal = async (req, res) => {
             ok: false
         });
     } else {
-        const alimentoVenta = await connection.query('SELECT * FROM Alimento_Venta WHERE id = ?', [id_Alimento_Venta]);
+        const alimentoVenta = await connection.query('SELECT * FROM tipo_animales WHERE id = ?', [id_Alimento_Venta]);
         if (alimentoVenta[0].length === 0) {
             res.json({
                 msg: 'No existe alimento venta con id: ' + id_Alimento_Venta,
                 ok: false
             });
         } else {
-            const personal = await connection.query('SELECT * FROM Personal WHERE id = ?', [id_Personal]);
+            const personal = await connection.query('SELECT * FROM personal WHERE id = ?', [id_Personal]);
             if (personal[0].length === 0) {
                 res.json({
                     msg: 'No existe el personal con id: ' + id_Personal,
                     ok: false
                 });
             } else {
-                const [results] = await connection.query('INSERT INTO Tipo_Animales (id_Alimento, id_Alimento_Venta, id_Personal, Nombre, Cantidad, Precio, Comida) VALUES (?,?,?,?,?,?,?)', [
+                const [results] = await connection.query('INSERT INTO tipo_animales (id_Alimento, id_Alimento_Venta, id_Personal, Nombre, Cantidad, Precio, Comida) VALUES (?,?,?,?,?,?,?)', [
                     id_Alimento,
                     id_Alimento_Venta,
                     id_Personal,
@@ -95,7 +95,7 @@ TipoAnimales.createTipoAnimal = async (req, res) => {
 TipoAnimales.deleteTipoAnimal = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('DELETE FROM Tipo_Animales WHERE id = ?', [id]);
+    const result = await connection.query('DELETE FROM tipo_animales WHERE id = ?', [id]);
     result[0].affectedRows !== 0 ?
         res.json({
             msg: 'Tipo Animal eliminado con exito',
@@ -110,7 +110,7 @@ TipoAnimales.deleteTipoAnimal = async (req, res) => {
 TipoAnimales.updateTipoAnimal = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
-    const result = await connection.query('UPDATE Tipo_Animales SET ? WHERE id = ?', [
+    const result = await connection.query('UPDATE tipo_animales SET ? WHERE id = ?', [
         req.body,
         id
     ]);
