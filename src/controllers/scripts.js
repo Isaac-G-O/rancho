@@ -7,12 +7,13 @@ const SECRET_KEY = process.env.SECRET_KEY; // descomentar esta linea y comentar 
 
 // login
 ScriptsCtr.validarUsuario = async (req, res) => {
-    const Cuenta = req.body.Cuenta.user;
-    const Contra = req.body.Contra.pass;
+    const Cuenta = req.body.Cuenta;
+    const Contra = req.body.Contra;
     const connection = await connect();
-
+    console.log("Cuenta: " + Cuenta);
     // validar si existe
     const user = await connection.query('SELECT * FROM personal WHERE Cuenta = ?',[Cuenta]);
+    console.log(user);
     if(user[0].length === 0){
         res.json({
             msg: 'Usuario no identificado',
