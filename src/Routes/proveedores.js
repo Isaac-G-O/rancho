@@ -1,5 +1,5 @@
 const express = require('express');
-const Proveedores = require('../controllers/Proveedores');
+const Proveedores = require('../controllers/proveedores');
 const router = express.Router();
 
 router.get('/get-dataProveedores', Proveedores.getDataProveedores);
