@@ -31,7 +31,7 @@ class MainServer {
     EndPointCompras = '/compras';
     EndPointTipoAnimales = '/tipoAnimales';
     EndPointAnimales = '/animales';
-    EndPointScripts = '/scripts';
+    EndPointScripts = '/login';
     
     constructor(port) {
         this.port = port;
