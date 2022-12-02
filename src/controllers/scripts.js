@@ -8,8 +8,8 @@ const SECRET_KEY = process.env.SECRET_KEY; // descomentar esta linea y comentar 
 // login
 ScriptsCtr.validarUsuario = async (req, res) => {
     console.log(req.body);
-    const Cuenta = req.body.Cuenta;
-    const Contra = req.body.Contra;
+    const Cuenta = req.body.Cuenta.user;
+    const Contra = req.body.Contra.passw;
     const connection = await connect();
     console.log("Cuenta: " + Cuenta);
     // validar si existe
