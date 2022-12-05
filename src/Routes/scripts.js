@@ -3,6 +3,6 @@ const Scripts = require('../controllers/scripts');
 const router = express.Router();
 
 // login
-router.post('', Scripts.validarUsuario);
+router.post('/validar-usuario', Scripts.validarUsuario);
 
 module.exports = router;
