@@ -9,9 +9,10 @@ const SECRET_KEY = process.env.SECRET_KEY; // descomentar esta linea y comentar 
 ScriptsCtr.validarUsuario = async (req, res) => {
     console.log(req.body);
     const Cuenta = req.body.Cuenta.user;
-    const Contra = req.body.Contra.passw;
+    const Contra = req.body.Contra.pass;
     const connection = await connect();
     console.log("Cuenta: " + Cuenta);
+    console.log("Contra: " + Contra)
     // validar si existe
     const user = await connection.query('SELECT * FROM personal WHERE Cuenta = ?',[Cuenta]);
     if(user[0].length === 0){
