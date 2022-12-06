@@ -59,7 +59,7 @@ ScriptsCtr.query1 = async (req, res) => {
 ScriptsCtr.query2 = async (req, res) => {
     const connection = await connect();
 
-    const [data] = await connection.query('SELECT id_Compra, SUM(Cantidad), SUM(Precio_Unitario*Cantidad) AS total FROM compras GROUP BY id_compra HAVING total > 1000;');
+    const [data] = await connection.query('SELECT id_Compra, SUM(Cantidad) as Cantidad, SUM(Precio_Unitario*Cantidad) AS total FROM compras GROUP BY id_compra HAVING total > 1000;');
     console.log(data);
 
     res.send(data);
@@ -68,7 +68,7 @@ ScriptsCtr.query2 = async (req, res) => {
 ScriptsCtr.query3 = async (req, res) => {
     const connection = await connect();
 
-    const [data] = await connection.query('SELECT COUNT(DISTINCT id_tipo_Animal) FROM animales;');
+    const [data] = await connection.query('SELECT COUNT(DISTINCT id_tipo_Animal) as count FROM animales;');
     console.log(data);
 
     res.send(data);
