@@ -53,10 +53,7 @@ ScriptsCtr.query1 = async (req, res) => {
     const [data] = await connection.query('SELECT clientes.Nombre, COUNT(clientes.id_Cliente) AS NumberoVentasCliente FROM ventas LEFT JOIN clientes ON ventas.id_Cliente = clientes.id_Cliente GROUP BY Nombre');
     console.log(data);
 
-    res.send({
-        data: data,
-        ok: "true"
-    });
+    res.json(data);
 };
 
 ScriptsCtr.query2 = async (req, res) => {
