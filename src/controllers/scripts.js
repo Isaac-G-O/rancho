@@ -47,4 +47,16 @@ ScriptsCtr.validarUsuario = async (req, res) => {
     }
 };
 
+ScriptsCtr.query1 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT clientes.Nombre, COUNT(clientes.id_Cliente) AS NumberoVentasCliente FROM ventas LEFT JOIN clientes ON ventas.id_Cliente = clientes.id_Cliente GROUP BY Nombre');
+    console.log(data);
+
+    res.send({
+        data: data,
+        ok: "true"
+    });
+};
+
 module.exports = ScriptsCtr;

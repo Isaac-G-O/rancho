@@ -1,4 +1,4 @@
-@api = https://rancho.onrender.com/
+@api = http://localhost:3000/
 
 #####Tabla Actividades
 GET {{api}}activities/get-activities
@@ -278,14 +278,14 @@ Content-Type: application/json
 
 {
     "id_Actividad": 2,
-    "id_Material": 1,
+    "id_Material": 1006,
     "Nombre": "Isaac",
-    "Puesto": "Jefe",
+    "Puesto": "Administrador",
     "Salario": 1000000.343,
     "Turno": 1,
     "Estatus": "1",
-    "Cuenta": "isc",
-    "Contra": "hola"
+    "Cuenta": "root2",
+    "Contra": "root"
 }
 
 ###
@@ -305,7 +305,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{api}}personal/delete-persona/1
+DELETE {{api}}personal/delete-persona/216
 
 ###
 PUT {{api}}personal/update-persona/2
@@ -497,10 +497,17 @@ Content-Type: application/json
 DELETE {{api}}animales/delete-animal/1
 
 ### login
-POST {{api}}scripts/validar-usuario
+POST {{api}}login/validar-usuario
 Content-Type: application/json
 
 {
-    "Cuenta":"isc",
-    "Contra":"hola"
+    "Cuenta": {
+        "user": "isc"
+    },
+    "Contra": {
+        "passw": "hola"
+    }
 }
+
+###
+GET {{api}}login/query1
