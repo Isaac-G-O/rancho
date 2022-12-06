@@ -59,4 +59,52 @@ ScriptsCtr.query1 = async (req, res) => {
     });
 };
 
+ScriptsCtr.query2 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT id_Compra, SUM(Cantidad), SUM(Precio_Unitario*Cantidad) AS total FROM compras GROUP BY id_compra HAVING total > 1000;');
+    console.log(data);
+
+    res.send({
+        data: data,
+        ok: "true"
+    });
+};
+
+ScriptsCtr.query3 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT COUNT(DISTINCT id_tipo_Animal) FROM animales;');
+    console.log(data);
+
+    res.send({
+        data: data,
+        ok: "true"
+    });
+};
+
+ScriptsCtr.query4 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT MAX(Precio) AS PrecioMaximo FROM ventas;');
+    console.log(data);
+
+    res.send({
+        data: data,
+        ok: "true"
+    });
+};
+
+ScriptsCtr.query5 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT MIN(Precio_Unitario) AS PrecioMenor FROM compras;');
+    console.log(data);
+
+    res.send({
+        data: data,
+        ok: "true"
+    });
+};
+
 module.exports = ScriptsCtr;
