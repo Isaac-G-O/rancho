@@ -60,18 +60,30 @@ VentasCtr.createVenta = async (req, res) => {
             ok: false
         });
     } else {
-        const [results] = await connection.query('INSERT INTO ventas (id_Cliente,id_Producto,Cantidad, Precio, Total, Fecha) VALUES (?,?,?,?,?,?)',[
-            id_Cliente,
-            id_Producto,
-            Cantidad,
-            Precio,
-            Total,
-            Fecha
-        ]);
-        res.json({
-            id: results.insertId,
-            ...req.body
-        });
+        const renglon = await connection.query('SELECT * FROM Alimento_Venta WHERE id = ?', [id_Producto]);
+
+        if (renglon[0].length === 0) {
+            res.json({
+                msg: 'No existe Producto venta: ' + id_Cliente,
+                ok: false
+            });
+        } else {
+            const [results] = await connection.query('INSERT INTO ventas (id_Cliente,id_Producto,Cantidad, Precio, Total, Fecha) VALUES (?,?,?,?,?,?)',[
+                id_Cliente,
+                id_Producto,
+                Cantidad,
+                Precio,
+                Total,
+                Fecha
+            ]);
+
+            const [resultado] = await connection.query('')
+            res.json({
+                id: results.insertId,
+                ...req.body
+            });
+        }
+        
     }
 };
 
