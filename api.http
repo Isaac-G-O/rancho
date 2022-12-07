@@ -505,7 +505,7 @@ Content-Type: application/json
         "user": "isc"
     },
     "Contra": {
-        "passw": "hola"
+        "pass": "hola"
     }
 }
 
