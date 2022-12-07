@@ -47,7 +47,8 @@ ComprasCtr.createCompra = async (req, res) => {
     const id_Personal = req.body.id_Personal;
     const Cantidad = req.body.Cantidad;
     const Precio_Unitario = req.body.Precio_Unitario;
-    const Fecha =  new Date();;
+    const Fecha =  new Date();
+    console.log('body: ', req.body);
 
     // validacion
     const connection = await connect();
@@ -69,6 +70,7 @@ ComprasCtr.createCompra = async (req, res) => {
         } else {
             const data = await connection.query('SELECT * FROM alimento_animal WHERE id = ?', [id_Producto]);
             const cantidad = data[0][0].Cantidad;
+            console.log('data: ', data[0][0]);
             const [results] = await connection.query('INSERT INTO compras (id_Proveedor,id_Producto, id_Personal, Cantidad, Precio_Unitario, Fecha) VALUES (?,?,?,?,?,?)', [
                 id_Proveedor,
                 id_Producto,
