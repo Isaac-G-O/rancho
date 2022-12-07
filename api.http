@@ -510,4 +510,4 @@ Content-Type: application/json
 }
 
 ###
-GET {{api}}login/query1
+GET {{api}}login/query10
