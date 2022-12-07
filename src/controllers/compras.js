@@ -47,7 +47,7 @@ ComprasCtr.createCompra = async (req, res) => {
     const id_Personal = req.body.id_Personal;
     const Cantidad = req.body.Cantidad;
     const Precio_Unitario = req.body.Precio_Unitario;
-    const Fecha = req.body.Fecha;
+    const Fecha =  new Date();;
 
     // validacion
     const connection = await connect();
@@ -92,7 +92,7 @@ ComprasCtr.createCompra = async (req, res) => {
                 objUpdate,
                 id_Producto
             ]);
-            
+
             res.json({
                 id: results.insertId,
                 ...req.body
