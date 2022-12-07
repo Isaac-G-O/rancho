@@ -58,7 +58,7 @@ VentasCtr.createVenta = async (req, res) => {
             ok: false
         });
     } else {
-        const renglon = await connection.query('SELECT * FROM Alimento_Venta WHERE id = ?', [id_Producto]);
+        const renglon = await connection.query('SELECT * FROM alimento_venta WHERE id = ?', [id_Producto]);
 
         if (renglon[0].length === 0) {
             res.json({
@@ -78,7 +78,7 @@ VentasCtr.createVenta = async (req, res) => {
                 Fecha
             ]);
 
-            const alimento = await connection.query('SELECT * FROM Alimento_Venta WHERE id = ?', [id_Producto]);
+            const alimento = await connection.query('SELECT * FROM alimento_venta WHERE id = ?', [id_Producto]);
             let resta = 0;
             resta = alimento[0].Cantidad - Cantidad;
             let objAlimento = {
