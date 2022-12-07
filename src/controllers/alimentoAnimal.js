@@ -70,8 +70,18 @@ AlimentoAnimalCtr.deleteAlimentoAnimal = async (req, res) => {
 AlimentoAnimalCtr.updateAlimentoAnimal = async (req, res) => {
     const id = req.params.id;
     const connection = await connect();
+    const body = req.body;
+    const data = await connection.query('SELECT * FROM alimento_animal WHERE id = ?',[id]);
+    let resta = data[0][0].Cantidad - body.Cantidad;
+    let objAlimento = {
+        id: id,
+        Nombre: data[0][0].Nombre,
+        Descripcion: data[0][0].Descripcion,
+        Cantidad: resta,
+        TipoUnidad: data[0][0].TipoUnidad
+    };
     const result = await connection.query('UPDATE alimento_animal SET ? WHERE id = ?', [
-        req.body,
+        objAlimento,
         id
     ]);
     res.json(result);
