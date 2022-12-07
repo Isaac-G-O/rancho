@@ -45,7 +45,7 @@ VentasCtr.createVenta = async (req, res) => {
     const id_Cliente = req.body.id_Cliente;
     const id_Producto = req.body.id_Producto;
     const Cantidad = req.body.Cantidad;
-    const Fecha = new Date().toLocaleDateString();
+    const Fecha = new Date();
 
     // validacion
     const connection = await connect();
@@ -66,9 +66,9 @@ VentasCtr.createVenta = async (req, res) => {
                 ok: false
             });
         } else {
-            const precioUnitario = renglon[0].PrecioUnitario;
+            const precioUnitario = renglon[0][0].PrecioUnitario;
             const total = precioUnitario * Cantidad;
-            
+            console.log(renglon[0]);
             const [results] = await connection.query('INSERT INTO ventas (id_Cliente,id_Producto,Cantidad, Precio, Total, Fecha) VALUES (?,?,?,?,?,?)',[
                 id_Cliente,
                 id_Producto,
@@ -80,13 +80,13 @@ VentasCtr.createVenta = async (req, res) => {
 
             const alimento = await connection.query('SELECT * FROM alimento_venta WHERE id = ?', [id_Producto]);
             let resta = 0;
-            resta = alimento[0].Cantidad - Cantidad;
+            resta = alimento[0][0].Cantidad - Cantidad;
             let objAlimento = {
-                id: alimento[0].id,
-                Nombre: alimento[0].Nombre,
-                PrecioUnitario: alimento[0].PrecioUnitario,
+                id: alimento[0][0].id,
+                Nombre: alimento[0][0].Nombre,
+                PrecioUnitario: alimento[0][0].PrecioUnitario,
                 Cantidad: resta,
-                TipoUnidad: alimento[0].TipoUnidad
+                TipoUnidad: alimento[0][0].TipoUnidad
             };
             await connection.query('UPDATE alimento_venta SET ? WHERE id = ?',[
                 objAlimento,
