@@ -137,4 +137,13 @@ ScriptsCtr.query10 = async (req, res) => {
 
     res.send(data);
 };
+
+ScriptsCtr.query11 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT id,Nombre, id_Proveedor AS Vendedor, Fecha AS FechaCompra from personal, compras WHERE personal.id=compras.id_Personal;');
+    console.log(data);
+
+    res.send(data);
+};
 module.exports = ScriptsCtr;
