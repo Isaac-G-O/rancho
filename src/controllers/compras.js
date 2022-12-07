@@ -67,6 +67,8 @@ ComprasCtr.createCompra = async (req, res) => {
                 ok: false
             });
         } else {
+            const data = await connection.query('SELECT * FROM alimento_animal WHERE id = ?', [id_Producto]);
+            const cantidad = data[0][0].Cantidad;
             const [results] = await connection.query('INSERT INTO compras (id_Proveedor,id_Producto, id_Personal, Cantidad, Precio_Unitario, Fecha) VALUES (?,?,?,?,?,?)', [
                 id_Proveedor,
                 id_Producto,
@@ -75,6 +77,22 @@ ComprasCtr.createCompra = async (req, res) => {
                 Precio_Unitario,
                 Fecha
             ]);
+
+            let sum = 0;
+            sum = cantidad + Cantidad;
+            let objUpdate = {
+                id: id_Producto,
+                Nombre: data[0][0].Nombre,
+                Descripcion: data[0][0].Descripcion,
+                Cantidad: sum,
+                TipoUnidad: data[0][0].TipoUnidad
+            };
+
+            await connection.query('UPDATE alimento_animal SET ? WHERE id = ?',[
+                objUpdate,
+                id_Producto
+            ]);
+            
             res.json({
                 id: results.insertId,
                 ...req.body
