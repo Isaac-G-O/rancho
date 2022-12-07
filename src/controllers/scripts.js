@@ -92,4 +92,49 @@ ScriptsCtr.query5 = async (req, res) => {
     res.send(data);
 };
 
+ScriptsCtr.query6 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT Nombre,id_Producto, Cantidad, Total as "Pago_Total", Fecha from clientes, ventas where clientes.id_Cliente=ventas.id_Cliente;');
+    console.log(data);
+
+    res.send(data);
+};
+
+ScriptsCtr.query7 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('select  a.Nombre as Tipo_animal,b.id as id_alim,b.Nombre as Comida_Sugerida from tipo_animales a, alimento_animal b WHERE a.id_Alimento=b.id;');
+    console.log(data);
+
+    res.send(data);
+};
+
+ScriptsCtr.query8 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT proveedores.id_Proveedor, direcciones.calle, proveedores.RazonSocial, proveedores.Correo FROM proveedores LEFT JOIN direcciones ON direcciones.id = proveedores.id_Direccion;');
+    console.log(data);
+
+    res.send(data);
+};
+
+ScriptsCtr.query9 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('select Nombre,(PrecioUnitario*Cantidad) AS ValorProducto FROM alimento_venta;');
+    console.log(data);
+
+    res.send(data);
+};
+
+
+ScriptsCtr.query10 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT personal.id as id,personal.nombre AS PersonalRegistrado, actividades.Nombre AS ActividadDeTrabajo FROM personal LEFT JOIN actividades ON personal.id_Actividad=actividades.id;');
+    console.log(data);
+
+    res.send(data);
+};
 module.exports = ScriptsCtr;
