@@ -1,6 +1,6 @@
 
 const ActividadesCtr = {};
-const connect = require('../../DBConexion');
+const { connect } = require('../../DBConexion');
 
 ActividadesCtr.getActividades = async (req, res) => {
     const connection = await connect();

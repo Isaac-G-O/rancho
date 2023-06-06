@@ -1,5 +1,5 @@
 const Animales = {};
-const connect = require('../../DBConexion');
+const { connect } = require('../../DBConexion');
 
 Animales.getDataAnimales = async (req, res) => {
     const connection = await connect();

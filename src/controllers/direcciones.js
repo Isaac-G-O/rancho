@@ -1,5 +1,5 @@
 const DireccionesCtr = {};
-const connect = require('../../DBConexion');
+const { connect } = require('../../DBConexion');
 
 DireccionesCtr.getDataDirecciones = async (req, res) => {
     const connection = await connect();

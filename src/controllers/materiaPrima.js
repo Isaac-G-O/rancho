@@ -1,5 +1,5 @@
 const MateriaCtr = {};
-const connect = require('../../DBConexion');
+const { connect } = require('../../DBConexion');
 
 MateriaCtr.getMateriaPrima = async (req, res) => {
     const connection = await connect();

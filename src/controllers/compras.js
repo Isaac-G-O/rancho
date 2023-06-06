@@ -1,5 +1,5 @@
 const ComprasCtr = {};
-const connect = require('../../DBConexion');
+const { connect } = require('../../DBConexion');
 
 ComprasCtr.getDataCompras = async (req, res) => {
     const connection = await connect();

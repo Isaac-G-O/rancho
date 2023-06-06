@@ -1,5 +1,5 @@
 const ProveedoresCtr = {};
-const connect = require('../../DBConexion');
+const { connect } = require('../../DBConexion');
 
 ProveedoresCtr.getDataProveedores = async (req, res) => {
     const connection = await connect();

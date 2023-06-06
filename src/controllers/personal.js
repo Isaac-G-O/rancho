@@ -1,5 +1,5 @@
 const PersonalCtr = {};
-const connect = require('../../DBConexion');
+const { connect } = require('../../DBConexion');
 const bcrypt = require('bcryptjs');
 
 PersonalCtr.getDataPersonal = async (req, res) => {

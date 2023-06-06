@@ -1,9 +1,8 @@
 const ScriptsCtr = {};
-const connect = require('../../DBConexion');
+const { connect } = require('../../DBConexion');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-// const SECRET_KEY = 'always4youbb3312'; // <- pasar a las variables de entorno
-const SECRET_KEY = process.env.SECRET_KEY; // descomentar esta linea y comentar la anterior
+const SECRET_KEY = process.env.SECRET_KEY;
 
 // login
 ScriptsCtr.validarUsuario = async (req, res) => {

@@ -1,5 +1,5 @@
 const TipoAnimales = {};
-const connect = require('../../DBConexion');
+const { connect } = require('../../DBConexion');
 
 TipoAnimales.getDataTipoAnimales = async (req, res) => {
     const connection = await connect();
