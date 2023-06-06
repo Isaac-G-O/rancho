@@ -6,4 +6,12 @@ const connect = async () => {
     return conn;
 }
 
-module.exports = connect;
+const localConnection = async () => {
+    const conn = await mysql.createConnection(config);
+    return conn;
+}
+
+module.exports = {
+    connect,
+    localConnection
+};
