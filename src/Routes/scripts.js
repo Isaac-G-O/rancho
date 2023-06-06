@@ -15,6 +15,7 @@ router.get('/query8', Scripts.query8);
 router.get('/query9', Scripts.query9);
 router.get('/query10', Scripts.query10);
 router.get('/query11', Scripts.query11);
+router.get('/query12', Scripts.query12);
 
 
 

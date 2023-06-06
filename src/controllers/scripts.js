@@ -95,7 +95,7 @@ ScriptsCtr.query5 = async (req, res) => {
 ScriptsCtr.query6 = async (req, res) => {
     const connection = await connect();
 
-    const [data] = await connection.query('SELECT Nombre,id_Producto, Cantidad, Total as "Pago_Total", Fecha from clientes, ventas where clientes.id_Cliente=ventas.id_Cliente;');
+    const [data] = await connection.query('SELECT id_Venta,Nombre,id_Producto, Cantidad, Total as "Pago_Total", Fecha from clientes, ventas where clientes.id_Cliente=ventas.id_Cliente;');
     console.log(data);
 
     res.send(data);
@@ -141,7 +141,15 @@ ScriptsCtr.query10 = async (req, res) => {
 ScriptsCtr.query11 = async (req, res) => {
     const connection = await connect();
 
-    const [data] = await connection.query('SELECT id,Nombre, id_Proveedor AS Vendedor, Fecha AS FechaCompra from personal, compras WHERE personal.id=compras.id_Personal;');
+    const [data] = await connection.query('select id, colonia AS PuntoVenta, Municipio from clientes, direcciones where direcciones.id=clientes.id_Direccion;');
+    console.log(data);
+
+    res.send(data);
+};
+ScriptsCtr.query12 = async (req, res) => {
+    const connection = await connect();
+
+    const [data] = await connection.query('SELECT  id_Proveedor AS Vendedor,Nombre, Fecha AS FechaCompra from personal, compras WHERE personal.id=compras.id_Personal;');
     console.log(data);
 
     res.send(data);
