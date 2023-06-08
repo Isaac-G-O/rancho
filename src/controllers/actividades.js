@@ -1,10 +1,20 @@
 
 const ActividadesCtr = {};
-const { connect } = require('../../DBConexion');
+const { connect, localConnection } = require('../../DBConexion');
+const ScriptsCtr = require('./scripts');
 
 ActividadesCtr.getActividades = async (req, res) => {
     const connection = await connect();
+    const localDBConnection = await localConnection();
+    const startServer = new Date();
     const [rows] = await connection.query('SELECT * FROM actividades;');
+    const endServer = new Date();
+    const serverTime = endServer - startServer;
+    const startLocal = new Date();
+    await localDBConnection.query('SELECT * FROM actividades;');
+    const endLocal = new Date();
+    const localTime = endLocal - startLocal;
+    await ScriptsCtr.saveResponseTime('Actividades', localTime, serverTime);
     res.json(rows);
 };
 

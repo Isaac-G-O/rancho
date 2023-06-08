@@ -1,5 +1,5 @@
 const ScriptsCtr = {};
-const { connect } = require('../../DBConexion');
+const { connect, localConnection } = require('../../DBConexion');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -153,4 +153,16 @@ ScriptsCtr.query12 = async (req, res) => {
 
     res.send(data);
 };
+
+ScriptsCtr.saveResponseTime = async (origen, localTime, serverTime) => {
+    const connection = await localConnection();
+    const [results] = await connection.query('INSERT INTO Tiempo_Respuesta (Peticion_Origen, TiempoLocal, TiempoServidor) VALUES (?,?,?)', [
+        origen,
+        localTime,
+        serverTime
+    ]);
+    console.log('results -> ', results);
+    return results;
+};
+
 module.exports = ScriptsCtr;

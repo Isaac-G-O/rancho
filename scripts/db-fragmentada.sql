@@ -9,14 +9,6 @@ CREATE TABLE IF NOT EXISTS Actividades(
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS Tiempo_Respuesta(
-    id INT NOT NULL AUTO_INCREMENT,
-    Peticion_Origen VARCHAR(50) NOT NULL,
-    TiempoLocal int(100) NOT NULL,
-    TiempoServidor int(100) NOT NULL,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS MateriaPrima(
     id INT NOT NULL AUTO_INCREMENT,
     Nombre VARCHAR(50) NOT NULL,
@@ -106,8 +98,35 @@ CREATE TABLE IF NOT EXISTS Ventas(
     FOREIGN KEY (id_Cliente) REFERENCES Clientes (id_Cliente)
 );
 
+-- Fragmentacion de forma horizontal
+CREATE TABLE IF NOT EXISTS Ventas_Mayores(
+    id_Venta INT NOT NULL AUTO_INCREMENT,
+    id_Cliente INT NOT NULL,
+    id_Producto INT NOT NULL,
+    Cantidad INT NOT NULL,
+    Precio FLOAT NOT NULL,
+    Total FLOAT NOT NULL,
+    Fecha DATE NOT NULL,
+    PRIMARY KEY (id_Venta),
+    FOREIGN KEY (id_Cliente) REFERENCES Clientes (id_Cliente)
+);
+
 -- De igual forma que la tabla anterior (Despues menciono la idea para manejar esto)
 CREATE TABLE IF NOT EXISTS Compras(
+    id_Compra INT NOT NULL AUTO_INCREMENT,
+    id_Proveedor INT NOT NULL,
+    id_Producto INT NOT NULL,
+    id_Personal INT NOT NULL,
+    Cantidad INT NOT NULL,
+    Precio_Unitario FLOAT NOT NULL,
+    Fecha DATE NOT NULL,
+    PRIMARY KEY (id_Compra),
+    FOREIGN KEY (id_Proveedor) REFERENCES Proveedores (id_Proveedor),
+    FOREIGN KEY (id_Personal) REFERENCES Personal (id)
+);
+
+-- Fragmentacion de forma horizontal
+CREATE TABLE IF NOT EXISTS Compras_Mayores(
     id_Compra INT NOT NULL AUTO_INCREMENT,
     id_Proveedor INT NOT NULL,
     id_Producto INT NOT NULL,

@@ -1,9 +1,20 @@
 const Animales = {};
-const { connect } = require('../../DBConexion');
+const { connect, localConnection } = require('../../DBConexion');
+// const { connect, OtherDeviceConnection, localConnection } = require('../../DBConexion');
+const ScriptsCtr = require('./scripts');
 
 Animales.getDataAnimales = async (req, res) => {
     const connection = await connect();
+    const localDBConnection = await localConnection();
+    const startServer = new Date();
     const [rows] = await connection.query('SELECT * FROM animales');
+    const endServer = new Date();
+    const serverTime = endServer - startServer;
+    const startLocal = new Date();
+    await localDBConnection.query('SELECT * FROM animales');
+    const endLocal = new Date();
+    const localTime = endLocal - startLocal;
+    await ScriptsCtr.saveResponseTime('Animales', localTime, serverTime);
     rows.length === 0 ?
         res.json({
             msg: 'No existen registros',
@@ -53,6 +64,7 @@ Animales.createAnimal = async (req, res) => {
 
     // validacion
     const connection = await connect();
+    // const otherDeviceConnection = await OtherDeviceConnection();
     const tipoAnimal = await connection.query('SELECT * FROM tipo_animales WHERE id = ?', [id_Tipo_Animal]);
 
     if (tipoAnimal[0].length === 0) {
@@ -69,6 +81,14 @@ Animales.createAnimal = async (req, res) => {
             Huevos_Dia,
             Huevos_Total
         ]);
+        // await otherDeviceConnection.query('INSERT INTO animales (id_Tipo_Animal, Peso, Litros_Dia, Litros_Total, Huevos_Dia, Huevos_Total) VALUES (?,?,?,?,?,?)', [
+        //     id_Tipo_Animal,
+        //     Peso,
+        //     Litros_Dia,
+        //     Litros_Total,
+        //     Huevos_Dia,
+        //     Huevos_Total
+        // ]);
         res.json({
             id: results.insertId,
             ...req.body,
@@ -81,7 +101,9 @@ Animales.createAnimal = async (req, res) => {
 Animales.deleteAnimal = async (req, res) => {
     const id_Animal = req.params.id_Animal;
     const connection = await connect();
+    // const otherDeviceConnection = await OtherDeviceConnection();
     const result = await connection.query('DELETE FROM animales WHERE id_Animal = ?', [id_Animal]);
+    // await otherDeviceConnection.query('DELETE FROM animales WHERE id_Animal = ?', [id_Animal]);
     result[0].affectedRows !== 0 ?
         res.json({
             msg: 'Animal eliminado con exito',
@@ -96,10 +118,15 @@ Animales.deleteAnimal = async (req, res) => {
 Animales.updateAnimales = async (req, res) => {
     const id_Animal = req.params.id_Animal;
     const connection = await connect();
+    // const otherDeviceConnection = await OtherDeviceConnection();
     const result = await connection.query('UPDATE animales SET ? WHERE id_Animal = ?', [
         req.body,
         id_Animal
     ]);
+    // await otherDeviceConnection.query('UPDATE animales SET ? WHERE id_Animal = ?', [
+    //     req.body,
+    //     id_Animal
+    // ]);
     res.json(result);
 };
 

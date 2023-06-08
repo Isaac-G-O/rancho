@@ -1,9 +1,20 @@
 const VentasCtr = {};
-const { connect } = require('../../DBConexion');
+const { connect, localConnection } = require('../../DBConexion');
+// const { connect, OtherDeviceConnection, localConnection } = require('../../DBConexion');
+const ScriptsCtr = require('./scripts');
 
 VentasCtr.getDataVentas = async (req, res) => {
     const connection = await connect();
+    const localDBConnection = await localConnection();
+    const startServer = new Date();
     const [rows] = await connection.query('SELECT * FROM ventas');
+    const endServer = new Date();
+    const serverTime = endServer - startServer;
+    const startLocal = new Date();
+    await localDBConnection.query('SELECT * FROM ventas');
+    const endLocal = new Date();
+    const localTime = endLocal - startLocal;
+    await ScriptsCtr.saveResponseTime('Ventas', localTime, serverTime);
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false
@@ -49,6 +60,7 @@ VentasCtr.createVenta = async (req, res) => {
 
     // validacion
     const connection = await connect();
+    // const otherDeviceConnection = await OtherDeviceConnection();
     const [rows] = await connection.query('SELECT * FROM clientes WHERE id_Cliente = ?',[
         id_Cliente
     ]);
@@ -77,6 +89,14 @@ VentasCtr.createVenta = async (req, res) => {
                 total,
                 Fecha
             ]);
+            // await otherDeviceConnection.query('INSERT INTO ventas (id_Cliente,id_Producto,Cantidad, Precio, Total, Fecha) VALUES (?,?,?,?,?,?)',[
+            //     id_Cliente,
+            //     id_Producto,
+            //     Cantidad,
+            //     precioUnitario,
+            //     total,
+            //     Fecha
+            // ]);
 
             const alimento = await connection.query('SELECT * FROM alimento_venta WHERE id = ?', [id_Producto]);
             let resta = 0;
@@ -105,11 +125,17 @@ VentasCtr.deleteVenta = async (req, res) => {
     const id_Venta = req.params.id_Venta;
     const id_Cliente = req.params.id_Cliente;
     const connection = await connect();
+    // const otherDeviceConnection = await OtherDeviceConnection();
 
     const [rows] = await connection.query('SELECT * FROM ventas WHERE id_Venta = ? AND id_Cliente = ?',[
         id_Venta,
         id_Cliente
     ]);
+    
+    // await otherDeviceConnection.query('SELECT * FROM ventas WHERE id_Venta = ? AND id_Cliente = ?',[
+    //     id_Venta,
+    //     id_Cliente
+    // ]);
 
     if(rows.length === 0){
         res.json({

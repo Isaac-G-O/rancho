@@ -16,6 +16,7 @@ const Ventas = require('../Routes/ventas');
 const Compras = require('../Routes/compras');
 const TipoAnimales = require('../Routes/tipoAnimales');
 const Animales = require('../Routes/animales');
+const ResponseTime = require('../Routes/tiempo-respuesta');
 
 class MainServer {
     // endpoints
@@ -32,6 +33,7 @@ class MainServer {
     EndPointTipoAnimales = '/tipoAnimales';
     EndPointAnimales = '/animales';
     EndPointScripts = '/login';
+    EndPointResponse = '/response';
     
     constructor(port) {
         this.port = port;
@@ -72,6 +74,7 @@ class MainServer {
         this.app.use(this.EndPointTipoAnimales, TipoAnimales);
         this.app.use(this.EndPointAnimales, Animales);
         this.app.use(this.EndPointScripts, Scripts);
+        this.app.use(this.EndPointResponse, ResponseTime);
         this.app.get('/', (req, res) => {
             res.json('Test BackendMySQLNodeJS');
         });

@@ -1,10 +1,20 @@
 const PersonalCtr = {};
-const { connect } = require('../../DBConexion');
+const { connect, localConnection } = require('../../DBConexion');
 const bcrypt = require('bcryptjs');
+const ScriptsCtr = require('./scripts');
 
 PersonalCtr.getDataPersonal = async (req, res) => {
     const connection = await connect();
+    const localDBConnection = await localConnection();
+    const startServer = new Date();
     const [rows] = await connection.query('SELECT * FROM personal');
+    const endServer = new Date();
+    const serverTime = endServer - startServer;
+    const startLocal = new Date();
+    await localDBConnection.query('SELECT * FROM personal');
+    const endLocal = new Date();
+    const localTime = endLocal - startLocal;
+    await ScriptsCtr.saveResponseTime('Personal', localTime, serverTime);
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false

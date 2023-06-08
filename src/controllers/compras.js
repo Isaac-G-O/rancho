@@ -1,9 +1,19 @@
 const ComprasCtr = {};
-const { connect } = require('../../DBConexion');
+const { connect, localConnection } = require('../../DBConexion');
+const ScriptsCtr = require('./scripts');
 
 ComprasCtr.getDataCompras = async (req, res) => {
     const connection = await connect();
+    const localDBConnection = await localConnection();
+    const startServer = new Date();
     const [rows] = await connection.query('SELECT * FROM compras');
+    const endServer = new Date();
+    const serverTime = endServer - startServer;
+    const startLocal = new Date();
+    await localDBConnection.query('SELECT * FROM compras');
+    const endLocal = new Date();
+    const localTime = endLocal - startLocal;
+    await ScriptsCtr.saveResponseTime('Compras', localTime, serverTime);
     rows.length === 0 ? res.json({
         msg: 'No existen registros',
         ok: false

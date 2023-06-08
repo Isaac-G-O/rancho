@@ -323,6 +323,9 @@ Content-Type: application/json
     "Contra": "hola"
 }
 
+###
+GET {{api}}personal/response-time
+
 
 ### Alimento Venta
 ###
@@ -376,10 +379,10 @@ Content-Type: application/json
 
 {
     "id_Proveedor":1,
-    "id_Producto":1,
+    "id_Producto":2,
     "id_Personal":5,
     "Cantidad":300,
-    "Precio_Unitario":500.50,
+    "Precio_Unitario":300.70,
     "Fecha":"2022-10-01"
 }
 
@@ -511,3 +514,12 @@ Content-Type: application/json
 
 ###
 GET {{api}}login/query12
+
+### Response Time
+GET {{api}}response/faster-serverResponse
+
+###
+GET {{api}}response/slowest-serverResponse
+
+###
+GET {{api}}response/best-responseTime
