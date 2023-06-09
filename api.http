@@ -407,8 +407,8 @@ Content-Type: application/json
 {
     "id_Cliente":2,
     "id_Producto":1,
-    "Cantidad":500,
-    "Precio":100,
+    "Cantidad":5000,
+    "Precio":200,
     "Total":50000,
     "Fecha":"2022-10-01"
 }
@@ -523,3 +523,6 @@ GET {{api}}response/slowest-serverResponse
 
 ###
 GET {{api}}response/best-responseTime
+
+###
+GET http://172.16.130.201:3001/response/best-responseTime

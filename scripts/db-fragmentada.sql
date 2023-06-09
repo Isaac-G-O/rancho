@@ -29,6 +29,24 @@ CREATE TABLE IF NOT EXISTS Direcciones(
     PRIMARY KEY (id)
 );
 
+-- Creación de la tabla fragmentada verticalmente
+CREATE TABLE IF NOT EXISTS Direcciones_Desc (
+  id INT NOT NULL AUTO_INCREMENT,
+  Calle VARCHAR(50) NOT NULL,
+  Numero VARCHAR(10) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+-- Transferir las columnas correspondientes a la tabla fragmentada vertical
+INSERT INTO Direcciones_Desc (id, Calle, Numero)
+SELECT id, Calle, Numero FROM Direcciones;
+
+-- Modificar la estructura de la tabla original para eliminar las columnas transferidas
+ALTER TABLE Direcciones
+DROP COLUMN Calle,
+DROP COLUMN Numero;
+
+
 CREATE TABLE IF NOT EXISTS Alimento_Animal(
     id INT NOT NULL AUTO_INCREMENT,
     Nombre VARCHAR(50) NOT NULL,
@@ -84,6 +102,24 @@ CREATE TABLE IF NOT EXISTS Alimento_Venta(
     TipoUnidad VARCHAR(10) NOT NULL,
     PRIMARY KEY (id)
 );
+
+-- Distribucion vertical
+CREATE TABLE IF NOT EXISTS Alimento_Venta_Desc(
+    id INT NOT NULL AUTO_INCREMENT,
+    Nombre VARCHAR(50) NOT NULL,
+    TipoUnidad VARCHAR(10) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Transferir las columnas correspondientes a la tabla fragmentada vertical
+INSERT INTO Alimento_Venta_Desc (id, Nombre, TipoUnidad)
+SELECT id, Nombre, TipoUnidad FROM Alimento_Venta;
+
+-- Modificar la estructura de la tabla original para eliminar las columnas transferidas
+ALTER TABLE Alimento_Venta
+DROP COLUMN Nombre,
+DROP COLUMN TipoUnidad;
+
 
 -- Se quito llave foranea de producto para manejarlo mediante un control interno
 CREATE TABLE IF NOT EXISTS Ventas(
